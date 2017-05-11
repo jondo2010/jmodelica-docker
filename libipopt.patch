@@ -1,0 +1,10 @@
+--- IpSmartPtr.hpp      2016-12-09 22:29:53.606261905 +0000
++++ /usr/include/coin/IpSmartPtr.hpp    2016-12-09 22:32:47.226563510 +0000
+@@ -15,7 +15,7 @@
+ # ifdef HAVE_STDDEF_H
+ #  include <stddef.h>
+ # else
+-#  error "don't have header file for stddef"
++#  include <cstddef>
+ # endif
+ #endif

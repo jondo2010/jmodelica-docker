@@ -1,0 +1,19 @@
+sudo: required
+language: c
+services:
+  - docker # required, but travis uses older version of docker :(
+
+install:
+  - pip install --user awscli # install aws cli w/o sudo
+  - docker --version  # document the version travis is using
+  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+
+script:
+  - eval $(aws ecr get-login --region us-east-1) #needs AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY envvars
+  - docker build -t jmodelica . 
+
+after_success:
+  - docker tag jmodelica:latest jondo2010/jmodelica:latest
+  - docker push jondo2010/jmodelica:latest
+  
+# sadly, travis doesn't cache docker builds yet, so each build will take a while
