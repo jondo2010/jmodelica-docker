@@ -1,6 +1,10 @@
 # vim: syntax=dockerfile filetype=dockerfile
 FROM ubuntu:16.04
-MAINTAINER John Hughes <johughes@tesla.com>
+
+ARG SVN_REV=9844
+
+LABEL maintainer "John Hughes <johughes@tesla.com>"
+LABEL org.jmodelica.rev ${SVN_REV}
 
 ENV USER=docker LOGNAME=docker MPLBACKEND=PDF
 
@@ -37,7 +41,7 @@ RUN apt-get -y update \
 
   # Build and install JModelica
   && mkdir -p /tmp \
-  && svn export https://svn.jmodelica.org/branches/stable /tmp/JModelica.org \
+  && svn export -r ${SVN_REV} https://svn.jmodelica.org/branches/stable /tmp/JModelica.org \
   && cd /tmp/JModelica.org \
   && mkdir build \
   && cd build \
@@ -62,8 +66,7 @@ RUN apt-get -y update \
 ENV TINI_VERSION v0.13.2
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini.asc /tini.asc
-RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 \
- && gpg --verify /tini.asc
+#RUN gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 595E85A6B1B4779EA4DAAEC70B588DFF0527A9B7 && gpg --verify /tini.asc
 RUN chmod +x /tini
 
 COPY entrypoint-script.sh /
