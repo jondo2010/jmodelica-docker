@@ -1,7 +1,7 @@
 # vim: syntax=dockerfile filetype=dockerfile
 FROM ubuntu:16.04
 
-ARG SVN_REV=9844
+ARG SVN_REV=11517
 
 LABEL maintainer "John Hughes <johughes@tesla.com>"
 LABEL org.jmodelica.rev ${SVN_REV}
